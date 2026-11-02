@@ -1,27 +1,20 @@
 import { Link } from "react-router-dom";
-import { useAuth } from "../hooks/useAuth";
 import { useStore } from "../hooks/useStore";
 
 export default function Jobs() {
-  const { user } = useAuth();
   const { jobs } = useStore();
-  const isAdmin = Boolean(user?.isAdmin);
   return (
     <div>
       <div className="section-head">
         <div>
           <h2>Jobs</h2>
           <p className="muted" style={{ margin: "0.35rem 0 0" }}>
-            {isAdmin
-              ? "Org pipeline monitor — trainers own uploads and runs"
-              : "Video → STT → summary → vision frames → playbook"}
+            Video → extract audio → Whisper STT → summary → vision frames → playbook
           </p>
         </div>
-        {!isAdmin ? (
-          <Link className="btn btn-accent" to="/app/new">
-            New video
-          </Link>
-        ) : null}
+        <Link className="btn btn-accent" to="/app/new">
+          New video
+        </Link>
       </div>
       <div className="panel">
         <ul className="stack-list">

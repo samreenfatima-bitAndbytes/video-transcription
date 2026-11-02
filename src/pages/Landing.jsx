@@ -22,8 +22,8 @@ export default function Landing() {
         <div className="wrap hero-content">
           <h1 className="brand-hero">VideoDoc</h1>
           <p className="hero-lead">
-            Turn lectures and meetings into structured playbooks — transcript, insights, and
-            frame-aligned steps in one workspace.
+            Web demo of the Colab notebook: upload a lecture or meeting, run Whisper STT, draft
+            docs, caption frames, and ship a step playbook — one operator, one pipeline.
           </p>
           <div className="hero-cta">
             <Link className="btn btn-accent" to={user ? "/app" : "/login"}>
@@ -39,7 +39,8 @@ export default function Landing() {
             <h2>Audio in. Playbook out.</h2>
             <p className="muted">
               Whisper STT, document summaries, LLaMA vision frames, and a step playbook — one
-              continuous pipeline.
+              continuous pipeline. The hosted demo uses sample videos with prepared outputs; a
+              real deployment needs model APIs/GPU and your own uploads.
             </p>
           </div>
           <ol className="flow-track" aria-label="Pipeline stages">
@@ -73,13 +74,13 @@ export default function Landing() {
             <img src="/img/feature.jpg" alt="Printed training playbook on a desk" />
           </figure>
           <div className="media-caption">
-            <h2>Built for training &amp; ops teams</h2>
+            <h2>Faithful to the original notebook</h2>
             <p className="muted">
-              Keep institutional knowledge out of chat threads — ship a playbook after every
-              lecture or standup.
+              No Admin vs Trainer roles — just the working pipeline: transcript, summary, vision
+              frames, and a shareable playbook.
             </p>
             <Link className="text-link" to={user ? "/app/jobs/job-asana" : "/login"}>
-              Preview the Asana activation sample →
+              Open the Asana sample job →
             </Link>
           </div>
         </div>

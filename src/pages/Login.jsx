@@ -4,11 +4,13 @@ import PasswordField from "../components/PasswordField";
 import { DEMO_USERS } from "../data/seed";
 import { useAuth } from "../hooks/useAuth";
 
+const DEMO = DEMO_USERS[0];
+
 export default function Login() {
   const { user, login } = useAuth();
   const nav = useNavigate();
-  const [email, setEmail] = useState(DEMO_USERS[0].email);
-  const [password, setPassword] = useState(DEMO_USERS[0].password);
+  const [email, setEmail] = useState(DEMO.email);
+  const [password, setPassword] = useState(DEMO.password);
   const [error, setError] = useState("");
 
   if (user) return <Navigate to="/app" replace />;
@@ -43,7 +45,7 @@ export default function Login() {
           </Link>
           <h1>Sign in</h1>
           <p className="muted">
-            Admin = org overview &amp; team. Trainer = upload videos &amp; build playbooks.
+            Single-operator demo of the Colab video→playbook pipeline. No role split.
           </p>
           <form onSubmit={onSubmit}>
             <label>
@@ -62,22 +64,19 @@ export default function Login() {
             </button>
           </form>
           <div className="demo-accounts">
-            <p className="demo-label">Quick fill</p>
-            {DEMO_USERS.map((u) => (
-              <button
-                key={u.id}
-                type="button"
-                className="demo-chip"
-                onClick={() => {
-                  setEmail(u.email);
-                  setPassword(u.password);
-                  setError("");
-                }}
-              >
-                <strong>{u.isAdmin ? "Admin" : "Trainer"}</strong>
-                <span>{u.email}</span>
-              </button>
-            ))}
+            <p className="demo-label">Demo account</p>
+            <button
+              type="button"
+              className="demo-chip"
+              onClick={() => {
+                setEmail(DEMO.email);
+                setPassword(DEMO.password);
+                setError("");
+              }}
+            >
+              <strong>Operator</strong>
+              <span>{DEMO.email}</span>
+            </button>
           </div>
         </div>
       </div>

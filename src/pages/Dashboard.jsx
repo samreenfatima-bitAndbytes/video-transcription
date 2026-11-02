@@ -1,110 +1,21 @@
 import { Link } from "react-router-dom";
-import { DEMO_USERS } from "../data/seed";
+import { PIPELINE_STEPS } from "../data/seed";
 import { useAuth } from "../hooks/useAuth";
 import { useStore } from "../hooks/useStore";
 
 export default function Dashboard() {
   const { user } = useAuth();
-  const { jobs, usage } = useStore();
-  const isAdmin = Boolean(user?.isAdmin);
+  const { jobs } = useStore();
   const ready = jobs.filter((j) => j.status === "ready");
   const queued = jobs.filter((j) => j.status === "queued" || j.status === "processing");
-
-  if (isAdmin) {
-    return (
-      <div>
-        <div className="section-head">
-          <div>
-            <h2>Org overview</h2>
-            <p className="muted" style={{ margin: "0.35rem 0 0" }}>
-              {user?.org} · Admin — usage, team, and pipeline health
-            </p>
-          </div>
-          <Link className="btn btn-accent" to="/app/team">
-            Manage team
-          </Link>
-        </div>
-
-        <div className="grid-4" style={{ marginBottom: "1.35rem" }}>
-          <div className="stat">
-            <strong>{usage.videosProcessed}</strong>
-            <span>Videos processed</span>
-          </div>
-          <div className="stat">
-            <strong>{usage.playbooksReady}</strong>
-            <span>Playbooks ready</span>
-          </div>
-          <div className="stat">
-            <strong>{usage.sttMinutes}</strong>
-            <span>STT minutes</span>
-          </div>
-          <div className="stat">
-            <strong>{DEMO_USERS.length}</strong>
-            <span>Team seats</span>
-          </div>
-        </div>
-
-        <div className="grid-2">
-          <div className="panel">
-            <div className="panel-head">
-              <h3>Pipeline health</h3>
-              <Link to="/app/jobs">All jobs</Link>
-            </div>
-            <ul className="stack-list">
-              <li className="stack-item">
-                <div className="stack-item-body">
-                  <strong>{ready.length} ready</strong>
-                  <p>Playbooks available to the training org</p>
-                </div>
-              </li>
-              <li className="stack-item">
-                <div className="stack-item-body">
-                  <strong>{queued.length} in flight</strong>
-                  <p>Queued or processing jobs from trainers</p>
-                </div>
-              </li>
-              <li className="stack-item">
-                <div className="stack-item-body">
-                  <strong>{usage.visionFrames} frames</strong>
-                  <p>LLaMA vision captions generated</p>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div className="panel">
-            <div className="panel-head">
-              <h3>People</h3>
-              <Link to="/app/team">Team</Link>
-            </div>
-            <ul className="stack-list">
-              {DEMO_USERS.map((u) => (
-                <li key={u.id} className="stack-item">
-                  <div className="stack-item-body">
-                    <strong>{u.fullName}</strong>
-                    <p>
-                      {u.email} · {u.isAdmin ? "Admin" : "Trainer"}
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-            <p className="muted" style={{ margin: "0.75rem 0 0", fontSize: "0.9rem" }}>
-              Trainers create videos and playbooks. You oversee seats and usage — not the upload
-              queue.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div>
       <div className="section-head">
         <div>
-          <h2>My workspace</h2>
+          <h2>Video → playbook</h2>
           <p className="muted" style={{ margin: "0.35rem 0 0" }}>
-            {user?.org} · Trainer — upload, run STT, ship playbooks
+            {user?.org} · same flow as the Colab notebook: STT → summary → vision → playbook
           </p>
         </div>
         <Link className="btn btn-accent" to="/app/new">
@@ -112,10 +23,25 @@ export default function Dashboard() {
         </Link>
       </div>
 
+      <div className="panel" style={{ marginBottom: "1.25rem" }}>
+        <h3 style={{ marginTop: 0 }}>Notebook pipeline</h3>
+        <p className="muted" style={{ marginTop: 0 }}>
+          One operator runs the full chain — no Admin/Trainer split (that was not in the original).
+        </p>
+        <ol className="pipeline">
+          {PIPELINE_STEPS.map((s) => (
+            <li key={s.id} className="pipeline-step">
+              <strong>{s.label}</strong>
+              <span>{s.detail}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
       <div className="grid-3" style={{ marginBottom: "1.35rem" }}>
         <div className="stat">
           <strong>{ready.length}</strong>
-          <span>My ready playbooks</span>
+          <span>Ready playbooks</span>
         </div>
         <div className="stat">
           <strong>{queued.length}</strong>
@@ -130,24 +56,28 @@ export default function Dashboard() {
       <div className="grid-2">
         <div className="panel">
           <div className="panel-head">
-            <h3>Ready to share</h3>
-            <Link to="/app/playbooks">Playbooks</Link>
+            <h3>Ready playbooks</h3>
+            <Link to="/app/playbooks">All</Link>
           </div>
-          <ul className="stack-list">
-            {ready.map((j) => (
-              <li key={j.id} className="stack-item">
-                <div className="stack-item-body">
-                  <strong>{j.title}</strong>
-                  <p>
-                    {j.source} · {j.playbook.length} steps
-                  </p>
-                </div>
-                <Link className="btn btn-ghost" to={`/app/playbooks/${j.id}`}>
-                  Open
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {ready.length === 0 ? (
+            <p className="muted">Run a job to generate a playbook.</p>
+          ) : (
+            <ul className="stack-list">
+              {ready.map((j) => (
+                <li key={j.id} className="stack-item">
+                  <div className="stack-item-body">
+                    <strong>{j.title}</strong>
+                    <p>
+                      {j.source} · {j.playbook.length} steps
+                    </p>
+                  </div>
+                  <Link className="btn btn-ghost" to={`/app/playbooks/${j.id}`}>
+                    Open
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div className="panel">
           <div className="panel-head">
@@ -155,7 +85,7 @@ export default function Dashboard() {
             <Link to="/app/jobs">Jobs</Link>
           </div>
           {queued.length === 0 ? (
-            <p className="muted">Nothing queued. Start a new video to run STT → playbook.</p>
+            <p className="muted">Nothing queued. Add a video to run the pipeline.</p>
           ) : (
             <ul className="stack-list">
               {queued.map((j) => (
@@ -167,7 +97,7 @@ export default function Dashboard() {
                     </p>
                   </div>
                   <Link className="btn btn-ghost" to={`/app/jobs/${j.id}`}>
-                    Run
+                    Open
                   </Link>
                 </li>
               ))}

@@ -12,18 +12,11 @@ import NewJob from "./pages/NewJob";
 import PlaybookDetail from "./pages/PlaybookDetail";
 import Playbooks from "./pages/Playbooks";
 import Settings from "./pages/Settings";
-import Team from "./pages/Team";
 
 function RequireAuth({ children }) {
   const { user } = useAuth();
   const loc = useLocation();
   if (!user) return <Navigate to="/login" replace state={{ from: loc }} />;
-  return children;
-}
-
-function RequireTrainer({ children }) {
-  const { user } = useAuth();
-  if (user?.isAdmin) return <Navigate to="/app" replace />;
   return children;
 }
 
@@ -44,20 +37,13 @@ export default function App() {
           }
         >
           <Route index element={<Dashboard />} />
+          <Route path="new" element={<NewJob />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path="jobs/:id" element={<JobDetail />} />
           <Route path="playbooks" element={<Playbooks />} />
           <Route path="playbooks/:id" element={<PlaybookDetail />} />
-          <Route
-            path="new"
-            element={
-              <RequireTrainer>
-                <NewJob />
-              </RequireTrainer>
-            }
-          />
-          <Route path="team" element={<Team />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="team" element={<Navigate to="/app" replace />} />
         </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

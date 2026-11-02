@@ -4,36 +4,11 @@ import { useAuth } from "../hooks/useAuth";
 import { useStore } from "../hooks/useStore";
 
 function NavLinks({ onNavigate }) {
-  const { user } = useAuth();
   const handle = onNavigate || (() => {});
-  const isAdmin = Boolean(user?.isAdmin);
-
-  if (isAdmin) {
-    return (
-      <>
-        <NavLink to="/app" end onClick={handle}>
-          Overview
-        </NavLink>
-        <NavLink to="/app/jobs" onClick={handle}>
-          Jobs
-        </NavLink>
-        <NavLink to="/app/playbooks" onClick={handle}>
-          Playbooks
-        </NavLink>
-        <NavLink to="/app/team" onClick={handle}>
-          Team
-        </NavLink>
-        <NavLink to="/app/settings" onClick={handle}>
-          Settings
-        </NavLink>
-      </>
-    );
-  }
-
   return (
     <>
       <NavLink to="/app" end onClick={handle}>
-        My work
+        Pipeline
       </NavLink>
       <NavLink to="/app/new" onClick={handle}>
         New video
@@ -85,10 +60,10 @@ export default function Layout() {
         <div className="sidebar-foot">
           <div className="user-chip">
             {user?.fullName}
-            <small>{user?.isAdmin ? "Admin" : "Trainer"}</small>
+            <small>Operator</small>
           </div>
           <button type="button" className="btn btn-ghost" onClick={resetDemo}>
-            Reset demo
+            Reset demo data
           </button>
           <button type="button" className="btn btn-ghost" onClick={doLogout}>
             Log out
@@ -114,18 +89,21 @@ export default function Layout() {
             <span />
           </button>
         </header>
-        <div className={`menu-backdrop${menuOpen ? " is-open" : ""}`} onClick={() => setMenuOpen(false)} />
+        <div
+          className={`menu-backdrop${menuOpen ? " is-open" : ""}`}
+          onClick={() => setMenuOpen(false)}
+        />
         <aside className={`mobile-drawer${menuOpen ? " is-open" : ""}`}>
           <div className="user-chip" style={{ marginBottom: "0.75rem" }}>
             {user?.fullName}
-            <small>{user?.isAdmin ? "Admin" : "Trainer"}</small>
+            <small>Operator</small>
           </div>
           <nav className="mobile-nav-links">
             <NavLinks onNavigate={() => setMenuOpen(false)} />
           </nav>
           <div className="mobile-drawer-actions">
             <button type="button" className="btn btn-ghost" onClick={resetDemo}>
-              Reset demo
+              Reset demo data
             </button>
             <button type="button" className="btn btn-ghost" onClick={doLogout}>
               Log out

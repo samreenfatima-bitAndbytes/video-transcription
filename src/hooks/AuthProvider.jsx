@@ -2,7 +2,7 @@ import { useCallback, useMemo, useSyncExternalStore } from "react";
 import { DEMO_USERS } from "../data/seed";
 import { AuthCtx } from "./authContext";
 
-const KEY = "videodoc_auth_v1";
+const KEY = "videodoc_auth_v2";
 let cache = null;
 const listeners = new Set();
 

@@ -1,6 +1,6 @@
 # VideoDoc — local setup
 
-Vite + React web workspace for Vercel. Simulates the Colab video→playbook pipeline (Whisper STT, Hugging Face, LLaMA vision) with seeded jobs — no API keys required.
+Vite + React web demo of the original **Video_to_Doc Colab notebook**: one operator runs video → Whisper STT → summary → vision frames → playbook. No Admin/Trainer role split (that was not in the notebook). Seeded jobs simulate the pipeline locally — no API keys.
 
 ## Run locally
 
@@ -12,12 +12,19 @@ npm run dev
 
 Open http://localhost:2120
 
-## Demo logins
+## Demo login
 
-| Role    | Email                       | Password     | Focus |
-|---------|-----------------------------|--------------|--------|
-| Admin   | `admin@videodoc.example`    | `DemoPass1!` | Org overview, jobs monitor, team seats, usage |
-| Trainer | `trainer@videodoc.example`  | `DemoPass1!` | New video, run STT→playbook, share playbooks |
+| Role     | Email                   | Password     |
+|----------|-------------------------|--------------|
+| Operator | `demo@videodoc.example` | `DemoPass1!` |
+
+## What to try
+
+1. Sign in → **Pipeline** overview (notebook steps).
+2. **New video** → pick a **sample recording** (Asana / Standup / Onboarding) — no gallery upload.
+3. Queue & run — cells animate, then that sample’s matching transcript, summary, frames, and playbook appear.
+4. Open the resulting **Playbook**.
+5. **Reset demo data** restores the starter jobs (2 ready + 1 queued).
 
 ## Vercel
 
