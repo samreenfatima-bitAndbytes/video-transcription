@@ -28,9 +28,8 @@ export default function JobDetail() {
         <div className="panel">
           <h3 style={{ marginTop: 0 }}>Run pipeline</h3>
           <p className="muted" style={{ marginTop: 0 }}>
-            Steps match the original notebook. Outputs come from the sample you picked (matched
-            transcript — not a gallery upload). Real AI would call Whisper + LLM + vision with
-            keys/GPU on your file.
+            Outputs come from the sample you picked (matched transcript — not a gallery upload).
+            Real AI would call Whisper + LLM + vision with keys/GPU on your file.
           </p>
           <ol className="pipeline">
             {pipelineSteps.map((s, i) => {
